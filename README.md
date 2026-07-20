@@ -1,44 +1,44 @@
-# ZabieramyTo — strona firmowa
+# ZabieramyTo — company website
 
-Strona-wizytówka dla firmy usługowej z Poznania (opróżnianie mieszkań, przeprowadzki,
-wywóz mebli, rozbiórki pieców kaflowych).
+A business-card website for a service company based in Poznań, Poland (apartment
+clearouts, moving services, furniture removal, tiled stove demolition).
 
-**Strona na żywo: [zabieramyto.pl](https://zabieramyto.pl)**
+**Live site: [zabieramyto.pl](https://zabieramyto.pl)**
 
-## Technologia
+## Tech stack
 
-- Czysty HTML / CSS / JavaScript — bez frameworka i bez systemu budowania
-- Hosting: Cloudflare Pages (deploy zawartości folderu `site/`)
-- Formularz kontaktowy: EmailJS + integracja z WhatsApp
-- Analityka: Google Tag Manager + GA4
+- Plain HTML / CSS / JavaScript — no framework, no build step
+- Hosting: Cloudflare Pages (deploys the contents of the `site/` folder)
+- Contact form: EmailJS + WhatsApp integration
+- Analytics: Google Tag Manager + GA4 (loaded on the production domain only)
 
-## Funkcje
+## Features
 
-- Responsywny design (mobile-first)
-- Galeria realizacji z suwakiem „przed / po" i lightboxem
-- Formularz wyceny z możliwością załączenia zdjęcia
-- Animowane liczniki w sekcji zaufania
-- SEO: canonical, Open Graph, sitemap, czyste adresy URL
+- Responsive, mobile-first design
+- Project gallery with a before/after slider and lightbox
+- Quote request form with photo attachment
+- Animated counters in the trust section
+- SEO: canonical tags, Open Graph, sitemap, clean URLs
 
-## Struktura
+## Structure
 
 ```
 site/
-├── index.html                 # strona główna
-├── uslugi.html                # oferta i cennik
-├── polityka-prywatnosci.html
-├── script.js                  # zachowania UI + konfiguracja formularza
-├── style.css                  # design tokens + style
+├── index.html                 # home page
+├── uslugi.html                # services & pricing
+├── polityka-prywatnosci.html  # privacy policy
+├── script.js                  # UI behaviors + form configuration
+├── style.css                  # design tokens + styles
 ├── sitemap.xml
 └── images/
 ```
 
-## Konfiguracja formularza
+## Form configuration
 
-Klucze EmailJS nie są wersjonowane — w `site/script.js` znajdują się placeholdery
-(`PODMIEN_SERVICE_ID` itd.), które przed wdrożeniem należy podmienić na własne wartości
-z konta [EmailJS](https://www.emailjs.com/).
+EmailJS keys are not versioned — `site/script.js` contains placeholders
+(`PODMIEN_SERVICE_ID`, etc.) that must be replaced with your own values
+from an [EmailJS](https://www.emailjs.com/) account before deployment.
 
 ---
 
-Projekt zrealizowany na zamówienie klienta. Kod udostępniony w celach portfolio.
+Built as a client project. Source published for portfolio purposes.
