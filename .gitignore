@@ -1,0 +1,11 @@
+# Kopie robocze — nie publikujemy
+backup/
+
+# Dokumenty wewnętrzne (gdyby wróciły do folderu)
+README-projekt.md
+TODO-po-rejestracji-firmy.md
+notatka-dla-klienta-gtm.md
+
+# Systemowe
+Thumbs.db
+.DS_Store
