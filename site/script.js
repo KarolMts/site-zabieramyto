@@ -1,17 +1,17 @@
-// ZabieramyTo — zachowania interfejsu
+// ZabieramyTo — UI behaviors
 
 // ============================================
-// KONFIGURACJA — PODMIEŃ na właściwe dane
+// CONFIGURATION — REPLACE with real values
 // ============================================
 const CONFIG = {
-  // Numer WhatsApp odbierający zgłoszenia, format międzynarodowy BEZ "+" i spacji
+  // WhatsApp number receiving inquiries, international format WITHOUT "+" and spaces
   whatsappNumber: '48727193543',
 
-  // Adres e-mail odbierający zgłoszenia (wstrzykiwany do ukrytego pola "to_email" w formularzu)
+  // E-mail address receiving inquiries (injected into the hidden "to_email" form field)
   recipientEmail: 'kontakt@zabieramyto.pl',
 
-  // EmailJS — załóż darmowe konto na https://www.emailjs.com/
-  // i podmień poniższe 3 wartości (Service ID, Template ID, Public Key)
+  // EmailJS — create a free account at https://www.emailjs.com/
+  // and replace the 3 values below (Service ID, Template ID, Public Key)
   emailjs: {
     serviceId: 'PODMIEN_SERVICE_ID',
     templateId: 'PODMIEN_TEMPLATE_ID',
@@ -19,25 +19,25 @@ const CONFIG = {
   },
 };
 // ============================================
-// FUNKCJE DODATKOWE — żeby wyłączyć funkcję, zmień true na false
+// OPTIONAL FEATURES — change true to false to disable a feature
 // ============================================
 var FEATURES = {
-  suwakPrzedPo: true,   // suwak przed/po w galerii (pary oznaczone data-suwak w index.html)
-  lightbox: true,       // powiększanie zdjęć galerii na pełnym ekranie po kliknięciu
-  liczbyOdZera: true,   // liczby w sekcji zaufania "nabijają się" przy przewinięciu
-  heroIlustracja: false, // ilustracja ekipy z kanapą w nagłówku strony (wyłączona)
+  suwakPrzedPo: true,   // before/after slider in the gallery (pairs marked with data-suwak in index.html)
+  lightbox: true,       // full-screen gallery photo preview on click
+  liczbyOdZera: true,   // numbers in the trust section count up when scrolled into view
+  heroIlustracja: false, // illustration of the crew with a couch in the page header (disabled)
 };
 // ============================================
 
-// W szablonie EmailJS użyj zmiennych: {{imie}}, {{telefon}}, {{uslugi}}
-// oraz w polu "To Email" szablonu wpisz {{to_email}} (przekazywane z ukrytego pola formularza).
-// Dodaj też załącznik plikowy powiązany z polem formularza "zdjecie"
-// (EmailJS: Template > Attachments > "Add attachment" > wybierz zmienną formularza).
+// In the EmailJS template use the variables: {{imie}}, {{telefon}}, {{uslugi}}
+// and in the template's "To Email" field enter {{to_email}} (passed from the hidden form field).
+// Also add a file attachment bound to the "zdjecie" form field
+// (EmailJS: Template > Attachments > "Add attachment" > pick the form variable).
 // ============================================
 
 document.addEventListener('DOMContentLoaded', function () {
 
-  // ---------- Nagłówek: logo kurczy się, pasek telefonu rośnie przy scrollu ----------
+  // ---------- Header: logo shrinks, phone bar grows on scroll ----------
   var header = document.querySelector('.header');
   var topbar = document.querySelector('.topbar');
   var SCROLL_THRESHOLD = 40;
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var topbarH = topbar ? topbar.getBoundingClientRect().height : 0;
     var headerH = header ? header.getBoundingClientRect().height : 0;
     document.documentElement.style.setProperty('--topbar-height', topbarH + 'px');
-    // + mały margines, żeby tytuł sekcji nie stykał się od razu z krawędzią nagłówka
+    // + a small margin so section titles don't touch the header edge
     document.documentElement.style.setProperty('--header-offset', (topbarH + headerH + 16) + 'px');
   }
 
@@ -54,16 +54,16 @@ document.addEventListener('DOMContentLoaded', function () {
     var scrolled = window.scrollY > SCROLL_THRESHOLD;
     document.body.classList.toggle('is-scrolled', scrolled);
     if (header) header.classList.toggle('header--scrolled', scrolled);
-    // wysokość paska telefonu i nagłówka zmienia się przy scrollu — dopasuj offsety
+    // topbar and header heights change on scroll — adjust the offsets
     syncTopbarHeight();
   }
 
   window.addEventListener('scroll', updateHeaderOnScroll, { passive: true });
   window.addEventListener('resize', syncTopbarHeight);
-  window.addEventListener('load', syncTopbarHeight); // przelicz po doładowaniu czcionek/obrazków
+  window.addEventListener('load', syncTopbarHeight); // recalculate after fonts/images finish loading
   updateHeaderOnScroll();
 
-  // ---------- Menu mobilne (hamburger) ----------
+  // ---------- Mobile menu (hamburger) ----------
   var navToggle = document.getElementById('nav-toggle');
   var nav = document.getElementById('nav');
   if (navToggle && nav) {
@@ -80,14 +80,14 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---------- Scroll reveal: elementy płynnie wjeżdżają przy przewijaniu ----------
+  // ---------- Scroll reveal: elements slide in smoothly while scrolling ----------
   var motionOk = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (motionOk && 'IntersectionObserver' in window) {
     var revealTargets = document.querySelectorAll(
       '.section__title, .card, .step, .opinia, .galeria__temat, .cennik__intro, .cennik__item, .cennik__cta, .zaufanie__item, .faq__item, .o-nas__inner, .piece__inner, .kontakt__inner'
     );
     revealTargets.forEach(function (el) { el.classList.add('reveal'); });
-    // kaskada: kolejne elementy tej samej siatki wjeżdżają z lekkim opóźnieniem
+    // cascade: consecutive items of the same grid slide in with a slight delay
     revealTargets.forEach(function (el) {
       var siblings = Array.prototype.filter.call(el.parentElement.children, function (s) {
         return s.classList.contains('reveal');
@@ -106,21 +106,21 @@ document.addEventListener('DOMContentLoaded', function () {
     revealTargets.forEach(function (el) { revealObserver.observe(el); });
   }
 
-  // ---------- Galeria: zdjęcie "przed" nabiera koloru po najechaniu / dotknięciu ----------
-  // (przełącznik kliknięciem tylko, gdy lightbox jest wyłączony — inaczej kliknięcie otwiera podgląd)
+  // ---------- Gallery: the "before" photo gains color on hover / touch ----------
+  // (click-to-toggle only when the lightbox is disabled — otherwise a click opens the preview)
   if (!FEATURES.lightbox) {
     document.querySelectorAll('.galeria__item--przed').forEach(function (item) {
       item.addEventListener('click', function () { item.classList.toggle('show-color'); });
     });
   }
 
-  // ---------- Ilustracja hero ----------
+  // ---------- Hero illustration ----------
   if (FEATURES.heroIlustracja) {
     var heroEl = document.querySelector('.hero');
     if (heroEl) heroEl.classList.add('hero--ilustracja');
   }
 
-  // ---------- Suwak przed/po w galerii (pionowy: "przed" u góry, "po" na dole) ----------
+  // ---------- Before/after gallery slider (vertical: "before" on top, "after" below) ----------
   if (FEATURES.suwakPrzedPo) {
     document.querySelectorAll('.galeria__para[data-suwak]').forEach(function (para) {
       var przedImg = para.querySelector('.galeria__item--przed img');
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---------- Lightbox galerii ----------
+  // ---------- Gallery lightbox ----------
   if (FEATURES.lightbox) {
     var zdjecia = Array.prototype.slice.call(document.querySelectorAll('.galeria__item img'));
     if (zdjecia.length) {
@@ -212,13 +212,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // ---------- Nabijające się liczby w sekcji zaufania ----------
+  // ---------- Count-up numbers in the trust section ----------
   if (FEATURES.liczbyOdZera && motionOk && 'IntersectionObserver' in window) {
     document.querySelectorAll('.zaufanie__num').forEach(function (el) {
       var m = el.textContent.match(/^(\d+(?:\.\d+)?)(.*)$/);
-      if (!m) return; // element bez liczby zostaje bez animacji
+      if (!m) return; // an element without a number stays unanimated
       var cel = parseFloat(m[1]);
-      var miejsca = (m[1].split('.')[1] || '').length; // obsługa np. "4.9"
+      var miejsca = (m[1].split('.')[1] || '').length; // handles values like "4.9"
       var sufiks = m[2];
       var obs = new IntersectionObserver(function (entries) {
         entries.forEach(function (entry) {
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function () {
           function krok(ts) {
             if (!start) start = ts;
             var p = Math.min((ts - start) / czas, 1);
-            p = 1 - Math.pow(1 - p, 3); // wolniejszy koniec
+            p = 1 - Math.pow(1 - p, 3); // ease-out (slower ending)
             el.textContent = (cel * p).toFixed(miejsca) + sufiks;
             if (p < 1) requestAnimationFrame(krok);
           }
@@ -240,15 +240,15 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // ---------- Rok w stopce ----------
+  // ---------- Footer year ----------
   var rokEl = document.getElementById('rok');
   if (rokEl) rokEl.textContent = new Date().getFullYear();
 
-  // ---------- Adres e-mail do ukrytego pola formularza ----------
+  // ---------- E-mail address for the hidden form field ----------
   var toEmailField = document.getElementById('to_email');
   if (toEmailField) toEmailField.value = CONFIG.recipientEmail;
 
-  // ---------- Linki WhatsApp (pasek górny + stopka) — ten sam numer co w formularzu ----------
+  // ---------- WhatsApp links (top bar + footer) — same number as the form ----------
   var waLink = 'https://wa.me/' + CONFIG.whatsappNumber + '?text=' + encodeURIComponent('Cześć! Chciałbym/chciałabym zapytać o wycenę.');
   ['topbar-wa', 'footer-wa', 'mobile-cta-wa'].forEach(function (id) {
     var el = document.getElementById(id);
@@ -260,11 +260,11 @@ document.addEventListener('DOMContentLoaded', function () {
     emailjs.init(CONFIG.emailjs.publicKey);
   }
 
-  // ---------- Formularz wyceny ----------
+  // ---------- Quote request form ----------
   var form = document.getElementById('wycena-form');
 
-  // Formularz jest ukryty — pokazują go kliknięcia w "Bezpłatna wycena" (boczna zakładka)
-  // oraz "Wypełnij formularz" (sekcja kontakt)
+  // The form is hidden — it is revealed by clicking "Bezpłatna wycena" (side tab)
+  // or "Wypełnij formularz" (contact section)
   document.querySelectorAll('.js-pokaz-formularz').forEach(function (el) {
     el.addEventListener('click', function (e) {
       if (!form) return;
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
       }, 650);
     });
   });
-  // Wejście z podstrony usług linkiem "index.html#formularz" — od razu otwórz formularz
+  // Arriving from the services page via "index.html#formularz" — open the form right away
   if (form && location.hash === '#formularz') {
     form.hidden = false;
     setTimeout(function () {
@@ -323,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Wklejanie zdjęcia ze schowka (Ctrl+V) — działa, gdy pole ma fokus
+  // Pasting an image from the clipboard (Ctrl+V) — works while the field has focus
   if (photoDrop && fileInput) {
     photoDrop.addEventListener('paste', function (e) {
       var items = (e.clipboardData || window.clipboardData).items;
@@ -332,8 +332,8 @@ document.addEventListener('DOMContentLoaded', function () {
         if (items[i].type.indexOf('image') === 0) {
           var blob = items[i].getAsFile();
           var namedFile = new File([blob], 'zdjecie-wklejone.png', { type: blob.type });
-          // Wstrzykujemy plik do prawdziwego <input type="file">,
-          // żeby wysyłka (EmailJS sendForm) traktowała go tak samo jak wybrany z dysku/aparatu.
+          // Inject the file into the real <input type="file">
+          // so the submission (EmailJS sendForm) treats it like a file picked from disk/camera.
           var dt = new DataTransfer();
           dt.items.add(namedFile);
           fileInput.files = dt.files;
@@ -385,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
         window.open(waUrl, '_blank');
       }
 
-      // ---------- 2) Email w tle (bonus — działa dopiero po uzupełnieniu danych EmailJS) ----------
+      // ---------- 2) Email in the background (bonus — works once EmailJS credentials are filled in) ----------
       var emailReady = window.emailjs
         && CONFIG.emailjs.serviceId.indexOf('PODMIEN') === -1
         && CONFIG.emailjs.templateId.indexOf('PODMIEN') === -1
@@ -395,13 +395,13 @@ document.addEventListener('DOMContentLoaded', function () {
           .catch(function (err) { console.error('EmailJS error:', err); });
       }
 
-      // ---------- 1) WhatsApp — główny kanał zgłoszenia (razem ze zdjęciem, jeśli dodane) ----------
+      // ---------- 1) WhatsApp — main inquiry channel (with the photo, if attached) ----------
       var canShareFile = photoFile
         && window.navigator && navigator.share && navigator.canShare
         && navigator.canShare({ files: [photoFile] });
 
       if (canShareFile) {
-        // Telefon: otwiera natywne okno "Udostępnij" ze zdjęciem — klient wybiera tam WhatsApp
+        // Phone: opens the native "Share" sheet with the photo — the client picks WhatsApp there
         navigator.share({
           files: [photoFile],
           title: 'Zapytanie o wycenę — ZabieramyTo',
@@ -411,14 +411,14 @@ document.addEventListener('DOMContentLoaded', function () {
           form.reset();
           clearPhoto();
         }).catch(function () {
-          // anulowane albo niewspierane — zapasowo otwórz zwykły czat z prośbą o ręczne dołączenie zdjęcia
+          // cancelled or unsupported — fall back to a plain chat asking to attach the photo manually
           openWaLink('\n\n(Dodałem/-am zdjęcie w formularzu — dołączam je tutaj ręcznie.)');
           status.textContent = 'WhatsApp otworzył się w nowej karcie — dołącz tam zdjęcie ręcznie i wyślij wiadomość.';
           form.reset();
           clearPhoto();
         });
       } else {
-        // Komputer / brak wsparcia Web Share z plikami — zwykły link tekstowy
+        // Desktop / no Web Share file support — plain text link
         openWaLink(maZdjecie ? '\n\n(Dodałem/-am zdjęcie w formularzu — dołączam je tutaj ręcznie.)' : '');
         status.textContent = maZdjecie
           ? 'WhatsApp otworzył się w nowej karcie — dołącz tam zdjęcie ręcznie i wyślij wiadomość.'
