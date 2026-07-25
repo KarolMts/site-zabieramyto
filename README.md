@@ -23,15 +23,33 @@ clearouts, moving services, furniture removal, tiled stove demolition).
 ## Structure
 
 ```
-site/
+site/                          # deployed by Cloudflare Pages
 ├── index.html                 # home page
 ├── uslugi.html                # services & pricing
 ├── polityka-prywatnosci.html  # privacy policy
 ├── script.js                  # UI behaviors + form configuration
 ├── style.css                  # design tokens + styles
 ├── sitemap.xml
-└── images/
+└── images/                    # only images actually referenced by the pages
+
+zrodla/                        # NOT deployed — source material
+└── nieuzywane/                # superseded duplicates (kept for reference)
 ```
+
+### `zrodla/` — source images
+
+Original, unedited photos from completed jobs. They are deliberately kept
+outside `site/` so Cloudflare does not deploy them.
+
+These originals are **larger and uncropped** compared to the versions on the
+site, which were cropped to fit the layout — for example
+`opróżnianie strychu.jpeg` is 1536×1024 while the deployed
+`oproznianie-strychu-przed.jpg` is 1200×400. Use `zrodla/` as the starting
+point for any new crop, a redesign, or social media material.
+
+`zrodla/nieuzywane/` holds files superseded by lighter formats (`logo.png` →
+`logo.webp`, raster maps → `mapa-wielkopolska.svg`). Nothing references them;
+they are kept only so nothing is lost.
 
 ## Form configuration
 
