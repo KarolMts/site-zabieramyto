@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
+<!-- Consent Mode v2 — must load synchronously BEFORE the GTM snippet -->
+<script src="zgody.js"></script>
 <!-- Google Tag Manager (only on production domain — demo/preview sends no data) -->
 <script>if(location.hostname==='zabieramyto.pl'||location.hostname==='www.zabieramyto.pl'){(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -64,6 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </button>
     <nav class="nav" id="nav">
       <a href="#uslugi">Usługi</a>
+      <a href="/uslugi">Cennik</a>
       <a href="#o-nas">O nas</a>
       <a href="#jak-to-dziala">Jak to działa</a>
       <a href="#realizacje">Realizacje</a>
@@ -244,7 +247,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <footer class="opinia__author">— Karolina, Swarzędz</footer>
         </blockquote>
       </div>
-      <p class="opinie__zacheta">Sprawdź wszystkie opinie naszych klientów w wizytówce Google - 55 opinii, średnia 5/5 gwiazdek.</p>
+      <p class="opinie__zacheta">Sprawdź wszystkie opinie naszych klientów w wizytówce Google - 85 opinii, średnia 5/5 gwiazdek.</p>
       <div class="opinie__cta">
         <a href="https://share.google/X2R3LJbTPrkkbCX96" target="_blank" rel="noopener" class="btn btn--google">
           <svg viewBox="0 0 24 24" aria-hidden="true" class="btn--google__logo"><path fill="#4285F4" d="M23.5 12.27c0-.85-.08-1.66-.22-2.45H12v4.64h6.45a5.52 5.52 0 0 1-2.39 3.62v3h3.87c2.26-2.09 3.57-5.16 3.57-8.81z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.93-2.91l-3.87-3.01c-1.07.72-2.44 1.15-4.06 1.15-3.12 0-5.77-2.11-6.71-4.95H1.29v3.1A11.99 11.99 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.29 14.28a7.2 7.2 0 0 1 0-4.56v-3.1H1.29a12 12 0 0 0 0 10.76l4-3.1z"/><path fill="#EA4335" d="M12 4.77c1.76 0 3.34.6 4.58 1.79l3.44-3.44A11.98 11.98 0 0 0 12 0 11.99 11.99 0 0 0 1.29 6.62l4 3.1C6.23 6.88 8.88 4.77 12 4.77z"/></svg>
@@ -445,15 +448,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
         </div>
 
-        <!-- DORMANT (GDPR): uncomment the block below together with the privacy policy links in the footer
-             once the company is registered — polityka-prywatnosci.html is ready and waiting in the folder.
+        
         <div class="form__row form__row--zgoda">
           <label class="zgoda">
             <input type="checkbox" id="zgoda" name="zgoda" required>
             <span>Wyrażam zgodę na przetwarzanie podanych danych w celu kontaktu i przygotowania wyceny. Szczegóły w <a href="/polityka-prywatnosci" target="_blank">polityce prywatności</a>.</span>
           </label>
         </div>
-        -->
+        
 
         <button type="submit" class="btn btn--primary btn--block">Wyślij zapytanie</button>
         <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
@@ -473,10 +475,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="footer__info">Tel: <a href="tel:727193543">727 193 543</a> | Działamy 7 dni w tygodniu | Płatność po wykonaniu</p>
       <p>&copy; <span id="rok"></span> ZabieramyTo — cała Wielkopolska. Wszystkie prawa zastrzeżone.</p>
     </div>
-    <!-- DORMANT: uncomment after company registration (fill in the name, address and tax ID)
-    <p class="footer__dane">PODMIEN: Pełna nazwa firmy · ul. PODMIEN, Poznań · NIP: PODMIEN</p>
+    
+    <p class="footer__dane">ZabieramyTo - Maciej Karbowniczak · NIP: 7632159402 · REGON: 545486377 </p>
     <a href="/polityka-prywatnosci" class="footer__polityka">Polityka prywatności</a>
-    -->
+    <a href="#" class="footer__polityka" onclick="ZTZgody.otworz();return false;">Ustawienia cookies</a>
+    
 
     <div class="footer__social">
       <a href="#" id="footer-wa" target="_blank" rel="noopener" aria-label="ZabieramyTo na WhatsApp">
