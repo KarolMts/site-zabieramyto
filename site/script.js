@@ -122,15 +122,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---------- Before/after gallery slider (vertical: "before" on top, "after" below) ----------
   if (FEATURES.suwakPrzedPo) {
-    // The source <img> tags are discarded below (para.innerHTML = ''), so the replacements
-    // must carry the same attributes: width/height reserve the box before the file arrives
-    // (no layout shift, and lazy-loading can tell the image is off-screen), loading="lazy"
-    // keeps the gallery out of the initial page load.
-    function atrybutyObrazka(img) {
-      var w = img.getAttribute('width');
-      var h = img.getAttribute('height');
-      var wymiary = (w && h) ? ' width="' + w + '" height="' + h + '"' : '';
-      return wymiary + ' loading="lazy" decoding="async"';
+    // The source markup is discarded below (para.innerHTML = ''), so the slider CLONES the
+    // original element instead of rebuilding an <img> from its src. Rebuilding would drop
+    // everything the markup carries: the <picture> wrapper, the WebP <source>, srcset/sizes
+    // and the width/height that reserve the box before the file arrives. Cloning keeps all
+    // of it, and keeps the slider correct whatever the markup grows into later.
+    function klonMedia(img) {
+      var klon = (img.closest('picture') || img).cloneNode(true);
+      var obraz = klon.tagName === 'IMG' ? klon : klon.querySelector('img');
+      if (obraz) {
+        obraz.setAttribute('loading', 'lazy');
+        obraz.setAttribute('decoding', 'async');
+      }
+      return { wezel: klon, obraz: obraz };
+    }
+
+    function element(tag, klasa) {
+      var el = document.createElement(tag);
+      if (klasa) el.className = klasa;
+      return el;
     }
 
     document.querySelectorAll('.galeria__para[data-suwak]').forEach(function (para) {
@@ -138,21 +148,32 @@ document.addEventListener('DOMContentLoaded', function () {
       var poImg = para.querySelector('.galeria__item--po img');
       if (!przedImg || !poImg) return;
 
-      var suwak = document.createElement('div');
-      suwak.className = 'suwak suwak--pion';
-      suwak.innerHTML =
-        '<img class="suwak__po" src="' + poImg.src + '" alt="' + poImg.alt + '"' + atrybutyObrazka(poImg) + '>' +
-        '<div class="suwak__przed"><img src="' + przedImg.src + '" alt="' + przedImg.alt + '"' + atrybutyObrazka(przedImg) + '></div>' +
-        '<div class="suwak__uchwyt" aria-hidden="true"><span></span></div>' +
-        '<span class="suwak__label suwak__label--przed">Przed</span>' +
-        '<span class="suwak__label suwak__label--po">Po</span>';
+      var suwak = element('div', 'suwak suwak--pion');
+
+      var po = klonMedia(poImg);
+      if (po.obraz) po.obraz.classList.add('suwak__po');
+
+      var przedWarstwa = element('div', 'suwak__przed');
+      przedWarstwa.appendChild(klonMedia(przedImg).wezel);
+
+      var uchwyt = element('div', 'suwak__uchwyt');
+      uchwyt.setAttribute('aria-hidden', 'true');
+      uchwyt.appendChild(document.createElement('span'));
+
+      var etykietaPrzed = element('span', 'suwak__label suwak__label--przed');
+      etykietaPrzed.textContent = 'Przed';
+      var etykietaPo = element('span', 'suwak__label suwak__label--po');
+      etykietaPo.textContent = 'Po';
+
+      suwak.appendChild(po.wezel);
+      suwak.appendChild(przedWarstwa);
+      suwak.appendChild(uchwyt);
+      suwak.appendChild(etykietaPrzed);
+      suwak.appendChild(etykietaPo);
 
       para.classList.add('galeria__para--suwak');
       para.innerHTML = '';
       para.appendChild(suwak);
-
-      var przedWarstwa = suwak.querySelector('.suwak__przed');
-      var uchwyt = suwak.querySelector('.suwak__uchwyt');
 
       function ustaw(procent) {
         procent = Math.max(0, Math.min(100, procent));

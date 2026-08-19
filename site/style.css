@@ -536,6 +536,8 @@ body.is-scrolled .topbar__phone {
   border-radius: var(--radius);
   overflow: hidden;
 }
+/* height:100% on the image only resolves if <picture> is a block of the same height */
+.galeria__item picture { display: block; height: 100%; }
 .galeria__item img { width: 100%; height: 100%; object-fit: cover; }
 .galeria__item--przed img { filter: grayscale(1); transition: filter 0.8s ease; }
 .galeria__item--przed { cursor: pointer; }
@@ -863,6 +865,8 @@ body.is-scrolled .topbar__phone {
   user-select: none;
   -webkit-user-select: none;
 }
+/* <picture> is inline by default, which would add a baseline gap under the photo */
+.suwak picture { display: block; }
 /* height:auto is required — without it the width/height attributes on <img> would be applied
    as a fixed pixel height instead of only reserving the aspect ratio */
 .suwak img { display: block; width: 100%; height: auto; -webkit-user-drag: none; }
