@@ -1105,7 +1105,9 @@ body.is-scrolled .topbar__phone {
   height: 10px;
   background: var(--orange);
 }
-.obszar__mapa img { width: 100%; max-width: 480px; margin: 0 auto; }
+/* height:auto — the width/height attributes on the <img> must only reserve the aspect
+   ratio, not force a fixed pixel height */
+.obszar__mapa img { width: 100%; height: auto; max-width: 480px; margin: 0 auto; }
 @media (max-width: 800px) {
   .obszar__inner { grid-template-columns: 1fr; gap: 28px; }
 }

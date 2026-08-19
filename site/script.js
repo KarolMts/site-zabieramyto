@@ -199,6 +199,12 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   // ---------- Gallery lightbox ----------
+  // Only runs on pages with plain .galeria__item figures — in practice uslugi.html.
+  // On index.html every gallery pair is marked data-suwak, and the slider above has
+  // already replaced those figures with a .suwak, so there is nothing left to match
+  // and no lightbox is built. That is deliberate: inside a slider a click is a grab,
+  // so opening a full-screen preview would fight the handle. Do not "fix" it by
+  // turning FEATURES.lightbox off — the flag is shared, and uslugi.html needs it.
   if (FEATURES.lightbox) {
     var zdjecia = Array.prototype.slice.call(document.querySelectorAll('.galeria__item img'));
     if (zdjecia.length) {
