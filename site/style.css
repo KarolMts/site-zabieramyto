@@ -863,7 +863,9 @@ body.is-scrolled .topbar__phone {
   user-select: none;
   -webkit-user-select: none;
 }
-.suwak img { display: block; width: 100%; -webkit-user-drag: none; }
+/* height:auto is required — without it the width/height attributes on <img> would be applied
+   as a fixed pixel height instead of only reserving the aspect ratio */
+.suwak img { display: block; width: 100%; height: auto; -webkit-user-drag: none; }
 .suwak__przed {
   position: absolute;
   top: 0;

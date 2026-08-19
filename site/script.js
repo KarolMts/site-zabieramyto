@@ -122,6 +122,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // ---------- Before/after gallery slider (vertical: "before" on top, "after" below) ----------
   if (FEATURES.suwakPrzedPo) {
+    // The source <img> tags are discarded below (para.innerHTML = ''), so the replacements
+    // must carry the same attributes: width/height reserve the box before the file arrives
+    // (no layout shift, and lazy-loading can tell the image is off-screen), loading="lazy"
+    // keeps the gallery out of the initial page load.
+    function atrybutyObrazka(img) {
+      var w = img.getAttribute('width');
+      var h = img.getAttribute('height');
+      var wymiary = (w && h) ? ' width="' + w + '" height="' + h + '"' : '';
+      return wymiary + ' loading="lazy" decoding="async"';
+    }
+
     document.querySelectorAll('.galeria__para[data-suwak]').forEach(function (para) {
       var przedImg = para.querySelector('.galeria__item--przed img');
       var poImg = para.querySelector('.galeria__item--po img');
@@ -130,8 +141,8 @@ document.addEventListener('DOMContentLoaded', function () {
       var suwak = document.createElement('div');
       suwak.className = 'suwak suwak--pion';
       suwak.innerHTML =
-        '<img class="suwak__po" src="' + poImg.src + '" alt="' + poImg.alt + '">' +
-        '<div class="suwak__przed"><img src="' + przedImg.src + '" alt="' + przedImg.alt + '"></div>' +
+        '<img class="suwak__po" src="' + poImg.src + '" alt="' + poImg.alt + '"' + atrybutyObrazka(poImg) + '>' +
+        '<div class="suwak__przed"><img src="' + przedImg.src + '" alt="' + przedImg.alt + '"' + atrybutyObrazka(przedImg) + '></div>' +
         '<div class="suwak__uchwyt" aria-hidden="true"><span></span></div>' +
         '<span class="suwak__label suwak__label--przed">Przed</span>' +
         '<span class="suwak__label suwak__label--po">Po</span>';
