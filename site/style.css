@@ -1462,18 +1462,38 @@ body.is-scrolled .topbar__phone {
   background: var(--orange);
 }
 .usluga--dark .usluga__lista li { color: var(--cream); }
+/* Photos are grouped into before/after pairs. One grid cell holds one PAIR, and the
+   caption sits above it — a label printed on the photo itself was unreadable once the
+   thumbnail dropped to ~170 px on a phone. */
 .usluga__foto {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  grid-template-columns: 1fr 1fr;   /* two pairs per row = four photos */
+  gap: 28px 16px;
   margin: 0 auto 32px; /* centered photos */
   justify-items: center;
 }
+.para {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+}
+.para__tytul {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--orange);
+}
+.usluga--dark .para__tytul { color: var(--orange-light); }
 .usluga__foto .galeria__item { width: 100%; }
 .usluga__foto .galeria__item img { aspect-ratio: 4 / 3; object-fit: cover; }
 .usluga__cta { display: flex; gap: 14px; flex-wrap: wrap; }
 @media (max-width: 640px) {
-  .usluga__foto { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .usluga__foto { grid-template-columns: 1fr; gap: 22px; }  /* one pair per row */
 }
 
 /* list subtitles, price note and highlighted sentences on the subpage */
