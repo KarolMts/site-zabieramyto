@@ -49,10 +49,22 @@ SOURCES = [
     "przeprowadzki.jpg",
     "wywoz-mebli-2-przed.jpg",
     "wywoz-mebli-2-po.jpg",
-    "wywoz-agd-przed.jpg",
-    "wywoz-agd-po.jpg",
-    "rozbiorka-pieca-przed.jpg",
-    "rozbiorka-pieca-po.jpg",
+    # added August 2026 — client photos, single frames (no collages)
+    "oproznianie-przedpokoju-przed.jpg",
+    "oproznianie-przedpokoju-po.jpg",
+    "przeprowadzki-pakowanie.jpg",
+    "przeprowadzki-zaladunek.jpg",
+    "przeprowadzki-rozladunek.jpg",
+    "wywoz-mebli-3-przed.jpg",
+    "wywoz-mebli-3-po.jpg",
+    "wywoz-mebli-4-przed.jpg",
+    "wywoz-mebli-4-po.jpg",
+    "rozbiorka-pieca-3-przed.jpg",
+    "rozbiorka-pieca-3-po.jpg",
+    "rozbiorka-pieca-4-przed.jpg",
+    "rozbiorka-pieca-4-po.jpg",
+    # wywoz-agd-* and rozbiorka-pieca-* (the two-frame and three-frame collages)
+    # were dropped from the page in favour of the single-frame photos above.
 ]
 
 
