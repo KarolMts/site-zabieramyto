@@ -63,6 +63,10 @@ SOURCES = [
     "rozbiorka-pieca-3-po.jpg",
     "rozbiorka-pieca-4-przed.jpg",
     "rozbiorka-pieca-4-po.jpg",
+    # home page, "O nas" — the crew at work
+    "ekipa-kuchnia-demontaz.jpg",
+    "ekipa-kuchnia-w-trakcie.jpg",
+    "ekipa-kuchnia-po.jpg",
     # wywoz-agd-* and rozbiorka-pieca-* (the two-frame and three-frame collages)
     # were dropped from the page in favour of the single-frame photos above.
 ]
